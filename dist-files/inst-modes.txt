@@ -1,0 +1,13 @@
+main-app/silp-dir/app-dir/ service:informix 550
+main-app/silp-dir/app-dir/*.sh service:informix 550
+main-app/silp-dir/app-dir/*.env service:informix 550
+main-app/silp-dir/app-dir/bin service:informix 550
+main-app/silp-dir/app-dir/dsg service:informix 770
+main-app/silp-dir/app-dir/bin/*.4ge service:informix 550
+main-app/silp-dir/app-dir/bin/*.jar service:informix 440
+main-app/silp-dir/app-dir/bin/*.frm service:informix 440
+main-app/silp-dir/app-dir/dsg/*.unl service:informix 440
+main-cfg/silp-dir/app-dir/ service:informix 550
+main-cfg/silp-dir/app-dir/info service:informix 550
+main-cfg/silp-dir/app-dir/info/* service:informix 440
+main-dat/silp-dir/app-dir/ service:informix 770

@@ -1,0 +1,41 @@
+#--- post install procedure
+#--- zwraca wartosc != 0 w przypadku bledu
+
+echo ' '
+echo 'Ustawienie zmiennej srodowiskowej INTRCPDIR ...'
+intrcpdir='export INTRCPDIR=intrcp'
+kat="/etc/silp-adm"
+
+jest=`grep INTRCPDIR $kat/silp-prod.env|wc -l`
+if [ $jest == 0 ]
+then
+  echo $kat/silp-prod.env
+  echo $intrcpdir >> $kat/silp-prod.env
+  echo 'OK'
+fi
+
+jest=`grep INTRCPDIR $kat/silp-test.env|wc -l`
+if [ $jest == 0 ]
+then
+  echo $kat/silp-test.env
+  echo $intrcpdir >> $kat/silp-test.env
+  echo 'OK'
+fi
+
+echo 'Dopisanie punktu <Import z RCP> w menu SILP...'
+/opt/informix/bin/dbaccess forest >/dev/null  2>&1 <<EOF
+update x_menu set unit_type = "234"
+where m_code = "200-20011" and unit_type = "1234";
+delete from x_menu where m_code = "200-20011" and unit_type = "1";
+insert into x_menu values (1, 999999999,  "1", "1-1101", 35,
+"200-20011", "Import z RCP", "J", "\$SILPADIR/\$INTRCPDIR/intrcp.sh",
+"", "N", "N");
+EOF
+if [ $? != 0 ]; then
+   echo "Zmiana zakoñczona b³êdem!"
+   sleep 2
+   exit 1
+else
+   echo "OK"
+fi
+exit 0

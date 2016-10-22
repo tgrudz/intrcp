@@ -1,0 +1,4 @@
+Wersja 1.03/2011.01.03
+-------------------------------------------------------------------------------------------------
+Wprowadzone zmiany:
+1. Usuniêcie b³êdów po przeniesieniu bazy na serwer centralny (zg³. 18584)

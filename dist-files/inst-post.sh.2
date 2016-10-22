@@ -1,0 +1,50 @@
+#--- post install procedure
+#--- zwraca wartosc != 0 w przypadku bledu
+if [ `uname` = Linux ]; then
+GNU=""
+else
+GNU=/opt/gnu/bin/
+fi
+
+echo ' '
+echo 'Ustawienie zmiennej srodowiskowej INTRCPDIR ...'
+intrcpdir='export INTRCPDIR=intrcp'
+kat="/etc/silp-adm"
+
+jest=`grep INTRCPDIR $kat/silp-prod.env|wc -l`
+if [ $jest = 0 ]
+then
+  echo "$kat/silp-prod.env"
+
+  if [ `uname` = Linux ]; then
+     sudo su root -c "chattr -i $kat/silp-prod.env;echo $intrcpdir >> $kat/silp-prod.env;chattr +i $kat/silp-prod.env;"
+  else
+     su -c "echo $intrcpdir >> $kat/silp-prod.env"
+  fi
+  if [ $? != 0 ]; then
+    echo 'B³±d'
+    sleep 2
+    exit 1
+  else
+    echo 'OK'
+  fi
+fi
+
+jest=`grep INTRCPDIR $kat/silp-test.env|wc -l`
+if [ $jest = 0 ]
+then
+  echo "$kat/silp-test.env"
+  if [ `uname` = Linux ]; then
+     sudo su root -c "chattr -i $kat/silp-test.env;echo $intrcpdir >> $kat/silp-test.env;chattr +i $kat/silp-test.env;"
+  else
+     su -c "echo $intrcpdir >> $kat/silp-test.env"
+  fi
+  if [ $? != 0 ]; then
+    echo 'B³±d'
+    sleep 2
+    exit 1
+  else
+    echo 'OK'
+  fi
+fi
+exit 0

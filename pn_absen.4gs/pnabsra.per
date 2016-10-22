@@ -1,0 +1,86 @@
+{#####################################################################
+# Program wykonany przez Pro-Holding Sp. z o. o., Kraków 2004
+######################################################################
+#}
+
+DATABASE forest
+
+SCREEN
+{
+ Okres absencji           Blok.  Dni  Ci±g³o¶æ Okres     Wyp³acono  Miesi±c
+  / Podstawa / St.100%  / Procent / St.wyl.   / St.skor.
+[A1        ]-[A2        ] [A3 ] [A4 ] [A5 ][A] [A6 ][B] [A7       ][A8     ]
+  [A9       ][B1       ][B2    ]  [B3       ][B4       ]
+[A1        ]-[A2        ] [A3 ] [A4 ] [A5 ][A] [A6 ][B] [A7       ][A8     ]
+  [A9       ][B1       ][B2    ]  [B3       ][B4       ]
+[A1        ]-[A2        ] [A3 ] [A4 ] [A5 ][A] [A6 ][B] [A7       ][A8     ]
+  [A9       ][B1       ][B2    ]  [B3       ][B4       ]
+[A1        ]-[A2        ] [A3 ] [A4 ] [A5 ][A] [A6 ][B] [A7       ][A8     ]
+  [A9       ][B1       ][B2    ]  [B3       ][B4       ]
+}
+
+TABLES
+    pn_absen_rates
+
+ATTRIBUTES
+A1 = pn_absen_rates.date_from, comments = "Data pocz±tku okresu";
+A2 = pn_absen_rates.date_to, comments = "Data koñca okresu";
+A3 = pn_absen_rates.block_cause_dc,
+     comments = "Kod przyczyny blokady absencji";
+A4 = pn_absen_rates.abs_days, noentry, comments = "Dni absencji";
+A5 = pn_absen_rates.abs_cnt_days, noentry,
+     comments = "Dni absencji ci±g³ej";
+A  = pn_absen_rates.abs_cnt_fl, upshift,
+     comments = "Próg ci±g³o¶ci: 'N' - nie, 'T' - tak";
+A6 = pn_absen_rates.abs_per_days, noentry,
+     comments = "Dni okresu zasi³kowego";
+B  = pn_absen_rates.abs_per_fl, upshift,
+     comments = "Waloryzacja: 'N' - nie, 'T' - tak";
+A7 = pn_absen_rates.pay_amount, comments = "Kwota wyp³aconego zasi³ku";
+A8 = pn_absen_rates.pay_month, comments = "Miesi±c wyp³aty zasi³ku";
+A9 = pn_absen_rates.abs_base, noentry,
+     comments = "Podstawa do wyliczenia stawki";
+B1 = pn_absen_rates.abs_rate1, noentry, comments = "Stawka 100%";
+B2 = pn_absen_rates.abs_perc, comments = "Procent stawki";
+B3 = pn_absen_rates.abs_rate2, noentry, comments = "Stawka do zap³aty";
+B4 = pn_absen_rates.abs_rate3,
+     comments = "Stawka skorygowana do zap³aty";
+
+INSTRUCTIONS
+screen record s_pnabsra[4] (pn_absen_rates.date_from,
+    pn_absen_rates.date_to, pn_absen_rates.block_cause_dc,
+    pn_absen_rates.abs_days, pn_absen_rates.abs_cnt_days,
+    pn_absen_rates.abs_cnt_fl, pn_absen_rates.abs_per_days,
+    pn_absen_rates.abs_per_fl, pn_absen_rates.pay_amount,
+    pn_absen_rates.pay_month, pn_absen_rates.abs_base,
+    pn_absen_rates.abs_rate1, pn_absen_rates.abs_perc,
+    pn_absen_rates.abs_rate2, pn_absen_rates.abs_rate3)
+
+delimiters "  "
+
+{
+######################################################################
+FOURGEN
+######################################################################
+
+defaults
+    module     = kp
+    type       = add-on
+    init       = 1=0
+    attributes = border, white
+    location   = 2, 3
+
+input 1
+    table     = pn_absen_rates
+    filter    = 1=1
+    order     = date_from
+    join      = pn_absen_rates.abs_num=pn_absence.abs_num
+    arr_max   = 20
+    lookup    = name=block_lk, key=block_cause_dc, table=pn_dict_pos,
+      filter=pn_dict_pos.type="block_cause" and pn_dict_pos.code=$block_cause_dc
+    zoom      = key=block_cause_dc, screen=diczoom, table=pn_dict_pos,
+      from=code, noautozoom, filter=1=1
+    skip      = date_from, date_to, block_cause_dc, abs_cnt_fl,
+      abs_per_fl, pay_amount, pay_month, abs_perc, abs_rate3
+    nonull    = date_from, date_to, abs_cnt_fl, abs_per_fl
+}

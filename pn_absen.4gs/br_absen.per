@@ -1,0 +1,45 @@
+{#####################################################################
+# Program wykonany przez Pro-Holding Sp. z o. o., Kraków 2004
+######################################################################
+#}
+
+DATABASE forest
+
+SCREEN
+{
+  Numer      Nazwisko                   Kod absencji  Absencja od-do
+\g----------------------------------------------------------------------------\g
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+ [A1     ] [A2                       ] [A3   ]     [A4        ]-[A5        ]
+}
+
+TABLES
+    pn_absence
+    v_address
+
+ATTRIBUTES
+A1 = pn_absence.addr_nr, comments = "Numer adresowy pracownika";
+A2 = v_address.name_1, comments = "Nazwisko";
+A3 = pn_absence.abs_code, comments = "Kod absencji";
+A4 = pn_absence.date_from, comments = "Absencja od";
+A5 = pn_absence.date_to, comments = "Absencja do";
+
+INSTRUCTIONS
+screen record s_browse[16] (pn_absence.addr_nr, v_address.name_1,
+    pn_absence.abs_code, pn_absence.date_from, pn_absence.date_to)
+
+delimiters "()"

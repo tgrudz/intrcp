@@ -1,0 +1,31 @@
+database formonly
+screen size 24 by 80
+{
+
+\g----------------\g K O N T R O L A    R C P  <-> S I L P \g-----------------------\g
+ 
+ 
+ 
+ Absencja od-do:[a1        ]-[a2        ]  
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+attributes
+a1 = formonly.date_from type date, 
+     comments = "Pierwszy dzieñ absencji";
+a2 = formonly.date_to type date, 
+     comments = "Ostatni dzieñ absencji";
+
+instructions 
+delimiters "()"

@@ -1,0 +1,5 @@
+Wersja 1.02/2010.07.27
+-------------------------------------------------------------------------------------------------
+Wprowadzone zmiany:
+1. Zapisywanie okresów akcencji.
+2. Zapisywanie godzin w poszczególnych dniach absencji (usuniêcie b³êdu ze zg³oszenia 16112)

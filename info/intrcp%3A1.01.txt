@@ -1,0 +1,201 @@
+Interfejs RCP->SILP
+----------------------------------------------------------------------------
+Autor: Katarzyna Osiñska
+       Zak³ad Informatyki LP
+Data:  2010.01.14
+----------------------------------------------------------------------------
+ 
+SPIS TRE¦CI
+1.	Wstêp	                        
+2.	Import danych z systemu RCP	
+3.	Kontrola  danych RCP-SILP
+
+ 
+1.	WSTÊP
+
+Program RCP-SILP umo¿liwia import danych o absencji  dla aktualnych
+pracowników w danym okresie z systemu Rejestracji Czasu Pracy (RCP) do Systemu
+Informatycznego Lasów Pañstwowych (SILP) oraz kontrolê danych o absencji z
+systemu RCP z danymi w SILP.
+Dane z systemu RCP mog± byæ importowane za wybrany miesi±c. Kontrolê danych o
+absencji z systemu RCP z danymi w SILP mo¿na wykonaæ równie¿ za wybrany
+miesi±c.
+W celu wywo³ania programu, w menu podsystemu Kadry  P³ace zosta³ dopisany nowy
+punkt menu: "J - Import z RCP"
+Dodatkowo w podysytemie "Dane wspólne" dopisano nowy punkt menu: "R
+Administrator RCP". Po wybraniu tej opcji, na ekranie wy¶wietli siê formatka
+do wprowadzenie/zmiany loginu i has³a administratora systemu RCP.
+
+Przed wybraniem punktu menu "J - Import z RCP" nale¿y:
+1. Wprowadziæ login i has³o adminstratora systemu RCP (Dane wspóne -> "R Administrator RCP")
+2. W danych adresowych (Dane wspólne -> Adresy) dla pracowników wprowadziæ adresy e-mail, 
+   które odpowiadaj± numerowi referencyjnemu pracownika w bazie systemu RCP. 
+   Adresy e-mail powinny byæ unikalne. 
+   Na poziomie DGLP przyjêto nastêpuj±cy schemat zak³adania adresów e-mail: pierwsza litera imienia,
+   nazwisko i @ad.lasy.gov.pl np.  mkowalski@ad.lasy.gov.pl.
+
+
+Po wyborze punktu menu "J  Import z RCP" wy¶wietli siê ekran:
+----------------------------------------------------------------------------|
+|Akcja:   Import  Kontrola  Exit                                            | 
+|Import danych z RCP                                                        | 
+|                                                                           | 
+|------------------------------   R C P  -> S I L P ------------------------|
+|                                                                           | 
+| Numer    Nazwisko                      Imiê                      Transfer |
+|----------------------------------------------------------------------------
+|                                                                           | 
+|                                                                           | 
+|                                                                           | 
+|                                                                           | 
+|                                                                           | 
+|                                                                           | 
+|                                                                           | 
+|                                                                           | 
+|                                                                           |
+-----------------------------------------------------------------------------
+ 
+Poni¿ej opisane zostan± poszczególne opcje z menu programu.
+_____________________________________________________________________________
+
+2.	IMPORT DANYCH Z SYSTEMU RCP
+
+Po wyborze opcji Import na ekranie wy¶wietli formatka do wprowadzenia miesi±ca
+i roku, za jaki maj± byæ importowane dane z RCP. Domy¶lnie wy¶wietlany jest
+bie¿±cy miesi±c i rok
+
+------------------------------------------------------------------------------
+|                                                                            |
+|Wprowad¼ okres do importu           Koniec: <ESC>  Przerwij: <DEL>          | 
+|                                                                            |
+|------------------------------   R C P  -> S I L P -------------------------|
+|                                                                            | 
+|                                                                            | 
+|                                                                            | 
+|                                                                            | 
+| Absencje za miesi±c/rok: (06)/(2009)                                       | 
+|                                                                            | 
+|                                                                            | 
+|                                                                            | 
+|                                                                            | 
+-----------------------------------------------------------------------------
+ 
+Po wprowadzeniu miesi±ca i roku na ekranie wy¶wietli siê pytanie:
+
+------------------------------------------------------------------------------
+Wybór:   Tak  Nie                                                            
+                                                                             
+Importowaæ dane z RCP za okres 2009.06.01 - 2009.06.30 ?                     
+------------------------------------------------------------------------------
+ 
+Po wyborze opcji Tak program wczytuje z bazy aktualnych pracowników. Dla
+ka¿dego pracownika pobierany jest  adres e-mail. W przypadku braku adresu
+e-mail, dane dla danego pracownika nie s± importowane a  w protokole z importu
+zapisywana jest informacja: 
+      663      Kowalski Jan
+                     Brak adresu mailowego
+Je¿eli w bazie jest adres e-mail , to z serwera z systemem RCP ¶ci±gany jest
+plik w formacie xml z informacj±  o przebiegu pracy pracownika w bie¿±cym
+miesi±cu. Pliki zapisywane s± w odpowiednim katalogu na serwerze SILP. W
+przypadku wyst±pienia b³êdu podczas transferu (np. z powodu braku po³±czenia,
+b³êdnego has³a), program przechodzi do nastêpnego pracowania a na protokole z
+importu zapisywana jest informacja:
+      663      Kowalski Jan
+                  B³±d podczas transferu pliku jkowaski.xml !
+
+W nastêpnym kroku dane z pliku xml przetwarzane s±  do pliku w formacie
+tekstowym . W przypadku b³êdu podczas konwersji lub je¿eli plik jest pusty
+(brak danych w RCP), to program przechodzi do nastêpnego pracowania a na
+protokole z importu zapisywana jest informacja:
+      663      Kowalski Jan
+                  B³±d podczas konwersji !
+
+Dane o absencji z pliku tekstowego zapisywane s± do bazy SILP
+Przed zapisaniem danych do bazy nastêpuje konwersja kodów absencji RCP na kody
+absencji w SILP. Poniewa¿ aplikacja na dzieñ dzisiejszy przeznaczona jest
+tylko dla Dyrekcji Generalnej L.P., to aby nie zmieniaæ struktury bazy danych,
+kody do konwersji zapisane s± w pliku tekstowym i na czas dzia³ania programu
+³adowane s± do tabeli tymczasowej. W celu dopisania nowego kodu, nale¿y
+zg³osiæ siê do administratora systemu.
+
+Poni¿ej bie¿±cy s³ownik do konwersji.
+
+RCP	SILP	Nazwa absencji w SILP
+--------------------------------------------------
+CC	CHCPR	Absencja chorob.ci±¿a k.pracod
+CC	CHCZU	Absencja chorob.ci±¿a zas.ZUS
+C	CHPRA	Absencja chorob.koszty pracoda
+C	CHZUS	Absencja chorob.zasi³ek ZUS
+DS	DELEG	delegacja obni¿.rycza³.samoch
+DZ	DELEG	delegacja obni¿.rycza³.samoch
+NN	NN	Nieobecno¶æ nieusprawiedliwion
+NUN	NUSNP	Nieobecno¶æ usprawiedl.niep³at
+NUP	NUSPL	Nieobecno¶æ usprawiedl.p³atna
+KDZ	OPDZI	Absencja-opieka nad chor.dziec
+KCR	OPROD	Absencja-opiek.n.chor.cz³.rodz
+KD8	OPZDZ	Absencja-opieka dziecko do 8l.
+SW	SW	S³u¿ba wojskowa
+SRC	SWREC	Absencja- ¶wiadcz.rehab.w ci±z
+SRR	SWREH	Abs.¶wiadczenie rehabilitacyjn
+SRW	SWREW	Absencja-¶wiadcz.rehabil.wypad
+UB	UB	Urlop bezp³atny
+UNZ	UNZ	Urlop na ¿±danie
+UO	UOKOL	Urlop okolicznosciowy
+UOP	UOP	Urlop opieka nad dziec.do 14 l
+UZ	URZDR	Urlop p³atny zdrowotny
+USA	USAN	Urlop na leczenie sanatoryjne
+US	USZKO	Urlop szkoleniowy
+UW	UW	Urlop wypoczynkowy
+UWY	UWYCH	Urlop wychowawczy
+M	ZASMA	Absencja urlop macierzyñski
+
+W przypadku gdy w plikach z RCP wyst±pi kod absencji, który nie ma
+odpowiednika w SILP, wówczas dane z takim kodem absencji nie s± przenoszone do
+SILP a na protokole wy¶wietla siê informacja:
+      663      Kowalski Jan
+             2009.06.04 - 2009.06.04  -
+               Brak konwersji kodu: DSX
+
+
+Przed zapisaniem danych o absencji do bazy systemu LAS wykonane s± analogiczna
+kontrole danych jak podczas wprowadzania danych w systemie.
+Program sprawdza czy:
+1.	istnieje dokument absencji na ten okres,
+2.	dla kodu absencji, dla której musi byæ pozycja planu, jest przypisanej
+        pozycji planu na okres absencji,
+3.	s± pozycje w przebiegu zatrudnienia na okres absencji,
+4.	przebieg zatrudnienia pokrywa ca³y okres absencji,
+5.	s± dane w kalendarzu dla okresu absencji
+W przypadku wyst±pienia b³êdu na protokole drukowana jest odpowiednia
+informacja.
+
+Po zakoñczeniu importu wy¶wietlany jest na ekranie protokó³ z importu. Dla
+ka¿dego pracownika, wy¶wietlana jest informacja o przeniesionych danych np.:
+700   Nowak Jan
+              2009.06.05 - 2009.06.06  DELEG
+             2009.06.09 - 2009.06.09  UW
+             2009.06.12 - 2009.06.12  UW
+             2009.06.24 - 2009.06.24  UW
+_______________________________________________________________________________
+
+3.	 KONTROLA  DANYCH RCP-SILP
+
+Opcja Kontrola umo¿liwia kontrole absencji zaewidencjonowan± w systemie RCP  z
+wprowadzonymi absencjami w systemie LAS.
+Po wybraniu opcji Kontrola na ekranie wy¶wietli siê formatka do wprowadzenia
+miesi±ca i roku, za który maj± byæ kontrolowane dane. Domy¶lnie wy¶wietlany
+bie¿±cy miesi±c i rok 
+Po wprowadzeniu okresu, na ekranie wy¶wietli siê pytanie: 
+------------------------------------------------------------------------------
+Wybór:   Tak  Nie                                                            
+                                                                             
+Kontrolowaæ dane z RCP za okres 2009.06.01 - 2009.06.30 ?                     
+------------------------------------------------------------------------------
+ 
+Po wybraniu opcji Tak dla ka¿dego pracownika ¶ci±gane s± dane z RCP za podany
+okres i dalsze dzia³anie jest analogiczne jak podczas importu. Dane w bazie
+zapisywane s± do tabeli tymczasowej.
+Nastêpnie sprawdzane jest, czy dane o absencji z RCP maj± swój odpowiednik w
+SILP. Je¿eli nie, to odpowiednia informacja zapisywana jest w protokole z
+kontroli, który na koniec wy¶wietlany jest na ekranie 
+

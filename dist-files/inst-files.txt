@@ -1,0 +1,11 @@
+main-app/silp-dir/app-dir/intrcp.env
+main-app/silp-dir/app-dir/intrcp.sh
+main-app/silp-dir/app-dir/bin/rcpsilp-1.0.jar
+main-app/silp-dir/app-dir/bin/intrcp.4ge
+main-app/silp-dir/app-dir/bin/rcp_adm.frm
+main-app/silp-dir/app-dir/bin/rcp_addr.frm
+main-app/silp-dir/app-dir/bin/rcp_okres.frm
+main-app/silp-dir/app-dir/dsg/rcp_silp_abs_dic.unl
+main-cfg/silp-dir/app-dir/info/intrcp:1.01.txt
+main-cfg/silp-dir/app-dir/info/intrcp:1.02.txt
+main-cfg/silp-dir/app-dir/info/intrcp:1.03.txt

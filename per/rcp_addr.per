@@ -1,0 +1,41 @@
+
+DATABASE forest
+
+SCREEN
+{
+
+\g---------------------------\g   R C P  -> S I L P \g-----------------------------\g
+
+ Numer    Nazwisko                      Imiê                        Transfer
+-----------------------------------------------------------------------------
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+[A1     ][A2                          ][A3                          ] [A  ]
+}
+
+TABLES
+    v_address
+
+ATTRIBUTES
+A1 = v_address.addr_nr;
+A2 = v_address.name_1;
+A3 = v_address.name_2;
+A  = formonly.status type char;
+
+INSTRUCTIONS
+screen record s_addr[14] (v_address.addr_nr, v_address.name_1,
+    v_address.name_2, formonly.status)
+
+delimiters "  "
+

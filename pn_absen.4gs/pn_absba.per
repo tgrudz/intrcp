@@ -1,0 +1,90 @@
+{#####################################################################
+# Program wykonany przez Pro-Holding Sp. z o. o., Kraków 2004
+######################################################################
+}
+
+DATABASE forest
+
+SCREEN
+{
+\g----------------------------\g DOKUMENTY ABSENCJI \g----------------------------\g
+  Numer     Nazwisko                         Imiê
+ [H1     ] [H2                            ] [H3                            ]
+ Kod absencji:[H4   ][H5                            ]
+ Absencja od-do:[H6        ]-[H7        ]   Dni:[H8    ]   Godziny:[H9     ]
+ Ci±g³o¶æ od:[L1         ] [L2   ] [L3        ]-[L4        ]
+\g----------------------------\g PODSTAWY ABSENCJI \g-----------------------------\g
+  Rok   Miesi±c  Podst. wylicz.  Podst. skor.  Dni nomin.  Dni przepr. Zal.
+ [A1  ]  [A2]     [A3       ]    [A4       ]    [A5   ]      [A6   ]   [A]
+ [A1  ]  [A2]     [A3       ]    [A4       ]    [A5   ]      [A6   ]   [A]
+ [A1  ]  [A2]     [A3       ]    [A4       ]    [A5   ]      [A6   ]   [A]
+ [A1  ]  [A2]     [A3       ]    [A4       ]    [A5   ]      [A6   ]   [A]
+ [A1  ]  [A2]     [A3       ]    [A4       ]    [A5   ]      [A6   ]   [A]
+ [A1  ]  [A2]     [A3       ]    [A4       ]    [A5   ]      [A6   ]   [A]
+\g----------------------------\g PODSTAWA WYLICZONA \g-- \gOkres obowi±zywania\g -----\g
+                    Podstawa ¶rednia:[B1       ]   Pocz.okresu  Kon.okresu
+  Aktualizacja podstawy (1/12 - DWR):[B3       ]   [B4  ]-[B5]  [B6  ]-[B7]
+  Stawka 100%:[B2       ] Skor.podst.[B8       ]
+}
+
+TABLES
+    pn_absence
+    v_address
+    pn_abs_type
+    pn_absen_bases
+
+ATTRIBUTES
+H1 = pn_absence.addr_nr, comments = "Numer adresowy pracownika";
+H2 = v_address.name_1, upshift, comments = "Nazwisko";
+H3 = v_address.name_2, noentry, comments = "Imiê";
+H4 = pn_absence.abs_code, upshift, comments = "Kod absencji";
+H5 = pn_abs_type.abs_name, noentry, comments = "Nazwa absencji";
+H6 = pn_absence.date_from, comments = "Pierwszy dzieñ absencji";
+H7 = pn_absence.date_to, comments = "Ostatni dzieñ absencji";
+H8 = pn_absence.abs_days, noentry, comments = "Dni absencji";
+H9 = pn_absence.abs_hours, comments = "Godziny absencji";
+L1 = pn_absence.first_abs_num,
+     comments = "Numer pierwszego dokumentu w absencji ci±g³ej";
+L2 = formonly.first_abs_code type char, noentry,
+     comments = "Kod pierwszej absencji w ci±gu";
+L3 = formonly.first_date_from type date, noentry,
+     comments = "Data pierwszego dnia absecji w ci±gu";
+L4 = formonly.first_date_to type date, noentry,
+     comments = "Data ostatniego dnia w pierwszym dokumencie ci±gu";
+A1 = pn_absen_bases.base_year, comments = "Rok podstawy";
+A2 = pn_absen_bases.base_month, comments = "Miesi±c podstawy";
+A3 = pn_absen_bases.base_value1, comments = "Podstawa wyliczona";
+A4 = pn_absen_bases.base_value2, comments = "Podstawa skorygowana";
+A5 = pn_absen_bases.nom_days, comments = "Dni nominalne";
+A6 = pn_absen_bases.work_days, comments = "Dni przepracowane";
+A  = formonly.include_fl type char, noentry,
+     comments = "Zaliczone do wyliczenia podstawy ¶redniej";
+B1 = formonly.base_avg type decimal;
+B2 = formonly.abs_rate type decimal;
+B3 = formonly.amount  type decimal;
+
+B4 = formonly.year_from;
+B5 = formonly.month_from;
+B6 = formonly.year_to;
+B7 = formonly.month_to;
+
+
+B8= formonly.suma;
+
+
+INSTRUCTIONS
+screen record s_pnabsen (pn_absence.addr_nr, v_address.name_1,
+    v_address.name_2, pn_absence.abs_code, pn_abs_type.abs_name,
+    pn_absence.date_from, pn_absence.date_to, pn_absence.abs_days,
+    pn_absence.abs_hours, pn_absence.first_abs_num,
+    formonly.first_abs_code, formonly.first_date_from,
+    formonly.first_date_to)
+
+screen record s_pnabsba[6] (pn_absen_bases.base_year,
+    pn_absen_bases.base_month, pn_absen_bases.base_value1,
+    pn_absen_bases.base_value2, pn_absen_bases.nom_days,
+    pn_absen_bases.work_days, formonly.include_fl)
+
+screen record s_fpnabsba (formonly.base_avg, formonly.amount, formonly.year_from,formonly.month_from, formonly.abs_rate, formonly.year_to, formonly.month_to,formonly.suma)
+
+delimiters "()"

@@ -1,0 +1,60 @@
+{#####################################################################
+# Program wykonany przez Pro-Holding Sp. z o. o., Kraków 2004
+######################################################################
+#}
+
+DATABASE forest
+
+SCREEN
+{
+----------------------------------------------------------------------------
+   Rok   Miesi±c   Podst. wylicz.   Podst. skor.   Dni nomin.   Dni przepr.
+  [A1  ]  [A2]      [A3       ]     [A4       ]     [A5   ]       [A6   ]
+  [A1  ]  [A2]      [A3       ]     [A4       ]     [A5   ]       [A6   ]
+  [A1  ]  [A2]      [A3       ]     [A4       ]     [A5   ]       [A6   ]
+  [A1  ]  [A2]      [A3       ]     [A4       ]     [A5   ]       [A6   ]
+  [A1  ]  [A2]      [A3       ]     [A4       ]     [A5   ]       [A6   ]
+  [A1  ]  [A2]      [A3       ]     [A4       ]     [A5   ]       [A6   ]
+}
+
+TABLES
+    pn_absen_bases
+
+ATTRIBUTES
+A1 = pn_absen_bases.base_year, comments = "Rok podstawy";
+A2 = pn_absen_bases.base_month, comments = "Miesi±c podstawy";
+A3 = pn_absen_bases.base_value1, comments = "Podstawa wyliczona";
+A4 = pn_absen_bases.base_value2, comments = "Podstawa skorygowana";
+A5 = pn_absen_bases.nom_days, comments = "Dni nominalne";
+A6 = pn_absen_bases.work_days, comments = "Dni przepracowane";
+
+INSTRUCTIONS
+screen record s_pnabsba[6] (pn_absen_bases.base_year,
+    pn_absen_bases.base_month, pn_absen_bases.base_value1,
+    pn_absen_bases.base_value2, pn_absen_bases.nom_days,
+    pn_absen_bases.work_days)
+
+delimiters "  "
+
+{
+######################################################################
+FOURGEN
+######################################################################
+
+defaults
+    module     = kp
+    type       = add-on
+    init       = 1=0
+    attributes = border, white
+    location   = 2, 3
+
+input 1
+    table     = pn_absen_bases
+    filter    = 1=1
+    order     = base_year, base_month
+    join      = pn_absen_bases.abs_num = pn_absence.abs_num
+    arr_max   = 24
+    skip      = base_year, base_month, base_value1, base_value2,
+      nom_days, work_days
+    nonull    = base_year, base_month, nom_days, work_days
+}

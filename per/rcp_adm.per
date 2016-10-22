@@ -1,0 +1,32 @@
+database formonly
+screen size 24 by 80
+{
+
+
+
+                     A D M I N I S T R A T O R    R C P
+
+
+      
+ 
+    Serwer: [a0                              ]
+
+    Login:  [a1              ]
+    
+    Has³o:  [a2              ]  
+
+
+
+
+ 
+
+                                                                              .
+}
+attributes
+a0 = formonly.server_rcp type char,
+     comments = "Nazwa domeny serwera i numeru portu z aplikacj± RCP";
+a1 = formonly.login type char, comments = "Login administratora w RCP";
+a2 = formonly.passwd type char, invisible;
+
+instructions
+delimiters "()"

@@ -1,0 +1,63 @@
+{#####################################################################
+# Program wykonany przez Pro-Holding Sp. z o. o., Kraków 2004
+######################################################################
+#}
+
+DATABASE forest
+
+SCREEN
+{
+
+
+
+
+
+
+----------------------------- GODZINY ABSENCJI -----------------------------
+
+                             Dzieñ       Godziny
+                           ----------------------
+                            [A1        ] [A2   ]
+                            [A1        ] [A2   ]
+                            [A1        ] [A2   ]
+                            [A1        ] [A2   ]
+                            [A1        ] [A2   ]
+                            [A1        ] [A2   ]
+                            [A1        ] [A2   ]
+                            [A1        ] [A2   ]
+}
+
+TABLES
+    pn_absen_hours
+
+ATTRIBUTES
+A1 = pn_absen_hours.abs_day, comments = "Dzieñ absencji";
+A2 = pn_absen_hours.abs_hours, comments = "Godziny absencji";
+
+INSTRUCTIONS
+screen record s_pnabsho[8] (pn_absen_hours.abs_day,
+    pn_absen_hours.abs_hours)
+
+delimiters "  "
+
+{
+######################################################################
+FOURGEN
+######################################################################
+
+defaults
+    module     = kp
+    type       = add-on
+    init       = 1=0
+    attributes = border, white
+    location   = 2, 3
+
+input 1
+    table     = pn_absen_hours
+    key       = abs_num, abs_day
+    filter    = 1=1
+    order     = abs_day
+    join      = pn_absen_hours.abs_num=pn_absence.abs_num
+    arr_max   = 100
+    skip      = abs_day, abs_hours
+}

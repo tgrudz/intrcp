@@ -1,0 +1,6 @@
+main-app/silp-dir/app-dir/
+main-app/silp-dir/app-dir/bin
+main-app/silp-dir/app-dir/dsg
+main-dat/silp-dir/app-dir/
+main-cfg/silp-dir/app-dir/
+main-cfg/silp-dir/app-dir/info/

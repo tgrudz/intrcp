@@ -1,0 +1,102 @@
+{#####################################################################
+# Program wykonany przez Pro-Holding Sp. z o. o., Kraków 2004
+######################################################################
+#}
+
+DATABASE forest
+
+SCREEN
+{
+\g----------------------------\g DOKUMENTY ABSENCJI \g----------------------------\g
+  Numer     Nazwisko                         Imiê
+ [A1     ] [A2                            ] [A3                            ]
+ Kod absencji:[A4   ][A5                            ]
+ Absencja od-do:[A6        ]-[A7        ]   Dni:[A8    ]   Godziny:[A9     ]
+                 Dni     Godziny    Dni robocze:[D2    ] Godz. rob:[D3     ]
+ Limit nale¿ny :[C7    ][C8     ]           Lata-miesi±ce-dni :[D4    ]-[D5]
+ Limit wykorz. :[C9    ][D1     ]
+ Ci±g³o¶æ od:[B1         ] [B2   ] [B3        ]-[B4        ]
+ Dokument:[B5    ][B6                            ]   Nr statys.:[B7        ]
+ Wprowadzi³:[B8   ][B9        ]                  Zmieni³:[C1   ][C2        ]
+\g---------------------------\g BLOKADY DNI ABSENCJI \g---------------------------\g
+      Od           Do           Przyczyna
+     [C3        ]-[C4        ] [C5    ][C6                            ]
+     [C3        ]-[C4        ] [C5    ][C6                            ]
+     [C3        ]-[C4        ] [C5    ][C6                            ]
+     [C3        ]-[C4        ] [C5    ][C6                            ]
+     [C3        ]-[C4        ] [C5    ][C6                            ]
+}
+
+TABLES
+    pn_absence
+    v_address
+    pn_abs_type
+    pn_absen_block
+
+ATTRIBUTES
+A1 = pn_absence.addr_nr, comments = "Numer adresowy pracownika";
+A2 = v_address.name_1, upshift, comments = "Nazwisko";
+A3 = v_address.name_2, noentry, comments = "Imiê";
+A4 = pn_absence.abs_code, upshift, comments = "Kod absencji";
+A5 = pn_abs_type.abs_name, noentry, comments = "Nazwa absencji";
+A6 = pn_absence.date_from, comments = "Pierwszy dzieñ absencji";
+A7 = pn_absence.date_to, comments = "Ostatni dzieñ absencji";
+A8 = pn_absence.abs_days, noentry, comments = "Dni absencji";
+A9 = pn_absence.abs_hours, comments = "Godziny absencji";
+D2 = pn_absence.abs_work_days, noentry,
+     comments = "Robocze dni absencji";
+D3 = pn_absence.abs_work_hours, noentry,
+     comments = "Robocze godziny absencji";
+C7 = formonly.days_avail_limit type smallint, noentry, comments = "";
+C8 = formonly.hours_avail_limit type decimal, noentry, comments = "";
+D4 = pn_absence.abs_absolute, noentry,
+     comments = "Lata-miesi±ce asencji";
+D5 = pn_absence.abs_absol_days, noentry, comments = "Dni";
+C9 = formonly.days_used_limit type smallint, noentry, comments = "";
+D1 = formonly.hours_used_limit type decimal, noentry, comments = "";
+B1 = pn_absence.first_abs_num,
+     comments = "Numer pierwszego dokumentu w absencji ci±g³ej";
+B2 = formonly.first_abs_code type char, upshift,
+     comments = "Kod pierwszej absencji w ci±gu";
+B3 = formonly.first_date_from type date, noentry,
+     comments = "Data pierwszego dnia absecji w ci±gu";
+B4 = formonly.first_date_to type date, noentry,
+     comments = "Data ostatniego dnia w pierwszym dokumencie ci±gu";
+B5 = pn_absence.abs_doc_type_dc, comments = "Kod dokumentu absencji";
+B6 = formonly.abs_doc_desc type char, noentry,
+     comments = "Opis kodu dokumentu absencji";
+B7 = pn_absence.abs_stat_code,
+     comments = "Numer statystyczny absencji";
+B8 = pn_absence.ins_ref_cd, upshift,
+     comments = "Kod u¿ytkownika wprowadzaj±cego dane";
+B9 = pn_absence.ins_date, noentry,
+     comments = "Data wprowadzenia danych";
+C1 = pn_absence.upd_ref_cd, upshift,
+     comments = "Kod u¿ytkownika zmieniaj±cego dane";
+C2 = pn_absence.upd_date, noentry, comments = "Data zmiany danych";
+C3 = pn_absen_block.date_from, comments = "Dzieñ od";
+C4 = pn_absen_block.date_to, comments = "Dzieñ do";
+C5 = pn_absen_block.block_cause_dc, comments = "Kod przyczyny blokady";
+C6 = formonly.block_cause_desc type char, noentry,
+     comments = "Opis kodu przyczyny blokady";
+
+INSTRUCTIONS
+screen record s_pnabsen (pn_absence.addr_nr, v_address.name_1,
+    v_address.name_2, pn_absence.abs_code, pn_abs_type.abs_name,
+    pn_absence.date_from, pn_absence.date_to, pn_absence.abs_days,
+    pn_absence.abs_hours, pn_absence.abs_work_days,
+    pn_absence.abs_work_hours, formonly.days_avail_limit,
+    formonly.hours_avail_limit, pn_absence.abs_absolute,
+    pn_absence.abs_absol_days, formonly.days_used_limit,
+    formonly.hours_used_limit, pn_absence.first_abs_num,
+    formonly.first_abs_code, formonly.first_date_from,
+    formonly.first_date_to, pn_absence.abs_doc_type_dc,
+    formonly.abs_doc_desc, pn_absence.abs_stat_code,
+    pn_absence.ins_ref_cd, pn_absence.ins_date, pn_absence.upd_ref_cd,
+    pn_absence.upd_date)
+
+screen record s_dpnabsen[5] (pn_absen_block.date_from,
+    pn_absen_block.date_to, pn_absen_block.block_cause_dc,
+    formonly.block_cause_desc)
+
+delimiters "()"
