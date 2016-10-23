@@ -399,7 +399,7 @@ function rcp_imp_kont()
               m_naz_plik_imp clipped, ".xml !"
           call rcp_zapisz_do_rap(l_kom)
           call rcp_wysw_status ("NIE")
-          #run inst_rm
+          run inst_rm
           continue foreach
        end if
 
@@ -407,15 +407,12 @@ function rcp_imp_kont()
           output to report rcp_imp_rap (m_txt)
           call rcp_zapisz_do_rap ("B��d podczas konwersji !")
           call rcp_wysw_status ("NIE")
-          #run inst_rm
+          run inst_rm
           continue foreach
        end if
 
-	#display "tmp1"
-	#sleep 6
        if rcp_imp_to_tmp () then
-	#display "TMP2"
-	#sleep 6
+
           if m_import_fl then
              output to report rcp_imp_rap (m_txt)
              call rcp_imp_silp () 
@@ -677,10 +674,7 @@ function rcp_imp_silp ()
           l_in_out_type	char(1),
           l_dtime char(19),
 	l_dtime1, l_dtime2 char(19),
-	l_ref_cd1 char(19) 
-	
-
-          
+	l_ref_cd1 char(19)
           
           
 #     (d_date       char(10), --dzien
@@ -690,8 +684,6 @@ function rcp_imp_silp ()
 #   	 work_time		char(8) --czas pracy
 #   	)
           
-          
-
 
    declare k1_imp_silp cursor for 
       select rcp_abs_code, day_type_ds, dor_date from tmp_rcp 
