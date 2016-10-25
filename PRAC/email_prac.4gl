@@ -2,6 +2,7 @@ main
   define dbname char(18),
          m_naz1, m_naz2 char(64),
          m_adres_email char(128),
+         m_imie char(64),
          m_addr_nr,
          k, i, j smallint
 
@@ -32,6 +33,8 @@ main
 
    foreach k1 into m_addr_nr, m_naz1, m_naz2
       let m_adres_email = null
+      let m_imie = null
+      
       let i = length (m_naz1)
       for k = 1 to i 
           if m_naz1[k] = '-' then
@@ -84,8 +87,51 @@ main
                  let m_adres_email[i] = m_naz1[j]
            end case
       end for 
+      
+      ######### imie
+  
+      for i = 1 to length (m_naz2)
+       
+          case m_naz2[i]
+             when '±'
+                 let m_imie[i] = 'a'
+             when '¡'
+                 let m_imie[j] = 'i'
+             when 'ê'
+                 let m_imie[i] = 'e'
+             when 'Ê'
+                 let m_imie[i] = 'e'
+             when '³'
+                 let m_imie[i] = 'l'
+             when '£'
+                 let m_imie[i] = 'l'
+             when 'ó'
+                 let m_imie[i] = 'o'
+             when 'Ó'
+                 let m_imie[i] = 'o'
+             when 'ñ'
+                 let m_imie[i] = 'n'
+             when 'Ñ'
+                 let m_imie[i] = 'n'
+             when '¶'
+                 let m_imie[i] = 's'
+             when '¦'
+                 let m_imie[i] = 's'
+             when '¿'
+                 let m_imie[i] = 'z'
+             when '¯'
+                 let m_imie[i] = 'z'
+             when '¼'
+                 let m_imie[i] = 'z'
+             when '¬'
+                 let m_imie[i] = 'z'
+             otherwise
+                 let m_imie[i] = m_naz2[i]
+           end case
+      end for 
+	  ##################
 
-      let m_adres_email = downshift (m_naz2[1]), 
+      let m_adres_email = downshift (m_imie), ".", 
              downshift (m_adres_email) clipped, "@ad.lasy.gov.pl"
       display m_naz2 clipped, " ", m_naz1 clipped, " " , m_adres_email clipped
       update v_address set email = m_adres_email
