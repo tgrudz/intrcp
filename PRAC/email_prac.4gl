@@ -1,3 +1,10 @@
+###################################################################
+# program wstawia do pola email w tabeli v_address email pracownika
+# na podstawie jego imienia i nazwiska 
+# w formacie imie.nazwisko@ad.lasy.gov.pl
+#
+# program uzywany podczas testow interfejsu rcp-silp
+######################################################################
 main
   define dbname char(18),
          m_naz1, m_naz2 char(64),
@@ -125,13 +132,19 @@ main
                  let m_imie[i] = 'z'
              when '¬'
                  let m_imie[i] = 'z'
+             when ' '
+             	  exit for
+             when ','
+             	  exit for
+             when '.'
+             	  exit for
              otherwise
                  let m_imie[i] = m_naz2[i]
            end case
       end for 
 	  ##################
 
-      let m_adres_email = downshift (m_imie), ".", 
+      let m_adres_email = downshift (m_imie) clipped, ".", 
              downshift (m_adres_email) clipped, "@ad.lasy.gov.pl"
       display m_naz2 clipped, " ", m_naz1 clipped, " " , m_adres_email clipped
       update v_address set email = m_adres_email
