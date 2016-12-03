@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<raport nazwa="Ewidencja czasu pracy" odDnia="01-04-2016" doDnia="30-04-2016" lokalizacja="GDLP - Warszawa">
+  <pracownik nazwisko="Zuchowicz" imie="Anna" kodDzialu="EK" nazwaDzialu="Wydział Księgowości">
+    <dni>
+      <dzien dzien="01-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:04" spoznienie="T" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="01, 08:44:08" wyjscie="01, 16:47:58" czasObecnosci="08:03:50"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="02-04-2016" typDnia="W"/>
+      <dzien dzien="03-04-2016" typDnia="N"/>
+      <dzien dzien="04-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:05" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="04, 06:57:09" wyjscie="04, 15:02:18" czasObecnosci="08:05:09"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="05-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:02" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="05, 08:13:07" wyjscie="05, 16:15:02" czasObecnosci="08:01:55"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="06-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:07" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="06, 06:53:41" wyjscie="06, 15:00:21" czasObecnosci="08:06:40"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="07-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:07" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="07, 06:53:20" wyjscie="07, 15:00:33" czasObecnosci="08:07:13"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="08-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:06" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="08, 06:54:53" wyjscie="08, 15:01:16" czasObecnosci="08:06:23"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="09-04-2016" typDnia="W"/>
+      <dzien dzien="10-04-2016" typDnia="N"/>
+      <dzien dzien="11-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:07" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="11, 06:54:24" wyjscie="11, 15:01:13" czasObecnosci="08:06:49"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="12-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:08" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="12, 06:54:03" wyjscie="12, 15:02:16" czasObecnosci="08:08:13"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="13-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:02" spoznienie="T" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="13, 08:34:17" wyjscie="13, 16:36:29" czasObecnosci="08:02:12"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="14-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:02" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="14, 07:08:52" wyjscie="14, 15:10:45" czasObecnosci="08:01:53"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="15-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:04" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="15, 06:56:14" wyjscie="15, 15:00:29" czasObecnosci="08:04:15"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="16-04-2016" typDnia="W"/>
+      <dzien dzien="17-04-2016" typDnia="N"/>
+      <dzien dzien="18-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:10" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="18, 06:53:40" wyjscie="18, 15:03:20" czasObecnosci="08:09:40"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="19-04-2016" typDnia="R" wymiar="8:00" kodNieob="KDZ" wymiarNieob="8:00" planWe="07:00"/>
+      <dzien dzien="20-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:04" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="20, 06:56:13" wyjscie="20, 15:00:02" czasObecnosci="08:03:49"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="21-04-2016" typDnia="R" wymiar="8:00" kodNieob="KDZ" wymiarNieob="8:00" planWe="07:00"/>
+      <dzien dzien="22-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:05" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="22, 06:55:32" wyjscie="22, 15:00:54" czasObecnosci="08:05:22"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="23-04-2016" typDnia="W"/>
+      <dzien dzien="24-04-2016" typDnia="N"/>
+      <dzien dzien="25-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:03" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="25, 08:25:25" wyjscie="25, 16:28:39" czasObecnosci="08:03:14"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="26-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:10" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="26, 06:53:37" wyjscie="26, 15:03:38" czasObecnosci="08:10:01"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="27-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:06" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="27, 06:54:32" wyjscie="27, 15:00:39" czasObecnosci="08:06:07"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="28-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:05" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="28, 06:55:52" wyjscie="28, 15:01:03" czasObecnosci="08:05:11"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="29-04-2016" typDnia="R" wymiar="8:00" czasPracy="8:00" obecnosc="8:01" planWe="07:00">
+        <obecnosci>
+          <obecnosc wejscie="29, 07:00:00" wyjscie="29, 15:01:00" czasObecnosci="08:01:00"/>
+        </obecnosci>
+      </dzien>
+      <dzien dzien="30-04-2016" typDnia="W"/>
+    </dni>
+    <podsumowanie dni="30" wymiar="168:00" czasPracy="152:00" obecnosc="153:38" wymiarNieob="16:00">
+      <typ typDnia="N" dni="4"/>
+      <typ typDnia="R" dni="21" wymiar="168:00" czasPracy="152:00" obecnosc="153:38" wymiarNieob="16:00"/>
+      <typ typDnia="W" dni="5"/>
+    </podsumowanie>
+  </pracownik>
+</raport>
