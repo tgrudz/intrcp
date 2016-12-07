@@ -433,47 +433,55 @@ function rcp_imp_kont()
    display "" at 3,1
 end function --rcp_imp()
 
+#------------------- tmg 07.12.2016 ----------------------------------------------
+#funkcja pobiera wprowadzony przez uzytkownika miesiac (99) i rok (9999)
+# i ustawia poczatkowa i koncowa data okresu za jaki sa pobierane dane
+# Okres jest ustawiany na jeden miesac - od pierwszego do ostatniego dnia miesiaca
+# ustawia zmienne w formacie yyyy.mm.dd:
+# m_date_from - pierwszy dzien miesiaca
+# m_date_to - ostatni dzien miesiaca
+#----------------------------------------------------------------------------------
 function rcp_okres()
    define ok, i smallint,
           l_rok char(4), l_mc char(2),
           l_date char(10)
 
    open window w_okres at 2,2 with form "rcp_okres" attribute (border)
-   if m_import_fl then
-   display "Wprowad� okres do importu           Koniec: <ESC>  Przerwij: <DEL>" 
-       at 2,1 
-   else
-   display "Wprowad� okres do kontroli          Koniec: <ESC>  Przerwij: <DEL>" 
-       at 2,1 
-   end if
-   
-   let ok = true
-   
-   let l_mc = month(TODAY) using "&&"
-   let l_rok = year(TODAY)
-   input l_mc, l_rok WITHOUT DEFAULTS FROM mc, rok 
-      after input  
-         if int_flag then
-            let int_flag = false
-            let ok = false
-            exit input
-         end if 
-   end input
-   if not ok then
-      error "Przerwano wprowadzanie okresu!"
-      return false
-   end if
-   let l_date = l_rok using '&&&&', ".", l_mc, ".01"
-   let m_date_from = l_date
-   if l_mc = 12 then
-      let l_date = l_rok using "&&&&", ".", l_mc, ".31"
-      let m_date_to = l_date
-   else
-      let i = l_mc+1 
-      let l_date = l_rok using "&&&&", ".", i using "&&", ".01" 
-      let  m_date_to = l_date
-      let m_date_to = m_date_to-1
-   end if
+	   if m_import_fl then
+		   display "Wprowad� okres do importu           Koniec: <ESC>  Przerwij: <DEL>" 
+		       at 2,1 
+		   else
+		   display "Wprowad� okres do kontroli          Koniec: <ESC>  Przerwij: <DEL>" 
+		       at 2,1 
+	   end if
+	   
+	   let ok = true
+	   
+	   let l_mc = month(TODAY) using "&&"
+	   let l_rok = year(TODAY)
+	   input l_mc, l_rok WITHOUT DEFAULTS FROM mc, rok 
+	      after input  
+	         if int_flag then
+	            let int_flag = false
+	            let ok = false
+	            exit input
+	         end if 
+	   end input
+	   if not ok then
+	      error "Przerwano wprowadzanie okresu!"
+	      return false
+	   end if
+	   let l_date = l_rok using '&&&&', ".", l_mc, ".01"
+	   let m_date_from = l_date
+	   if l_mc = 12 then
+	      let l_date = l_rok using "&&&&", ".", l_mc, ".31"
+	      let m_date_to = l_date
+	   else
+	      let i = l_mc+1 
+	      let l_date = l_rok using "&&&&", ".", i using "&&", ".01" 
+	      let  m_date_to = l_date
+	      let m_date_to = m_date_to-1
+	   end if
    close window w_okres
    if m_date_from is null or m_date_to is null then
       error "Bledny okres!"
