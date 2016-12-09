@@ -491,7 +491,13 @@ function rcp_okres()
    end if
 end function --rcp_okres()
 
-function rcp_wysw_prac()
+# --------------------tmg 09.12.2016---------------------------------------------
+# wyswietla na ekranie wiersz "pracownika" (adres,imie, nazwisko,status)
+# 	z tablicy ma_adr[max_rek_ekr]
+#  biez¹cego pracownika "podswietka" (tryb reverse), poprzedniego wyswietla w trybie normal
+# Gdy dojdzie do koñca ekranu - przewija ca³y ekran o jedn¹ pozycjê
+# ------------------------------------------------------------------
+function rcp_wysw_prac() 
    define i smallint
 
    if biez_rek = 1 then
@@ -516,8 +522,8 @@ function rcp_wysw_prac()
 	   let ma_addr[i].name_2 = ma_addr[i+1].name_2
 	   let ma_addr[i].status = ma_addr[i+1].status
            display ma_addr[i].* to s_addr[i].* 
-        end for    
-        let ma_addr[max_rek_ekr].addr_nr = p_bsence.addr_nr
+    end for    
+    let ma_addr[max_rek_ekr].addr_nr = p_bsence.addr_nr
 	let ma_addr[max_rek_ekr].name_1 = p_bsence.name_1
 	let ma_addr[max_rek_ekr].name_2 = p_bsence.name_2
 	let ma_addr[max_rek_ekr].status = null
@@ -526,6 +532,10 @@ function rcp_wysw_prac()
    end if
 end function --rcp_wysw_prac()
 
+# ------------------------------------------------------------------
+# wyswietla status (stat_fl) transferu pracownika 
+# 	(statnia kolumna ektanu rcp_addr.per)
+# ------------------------------------------------------------------
 function rcp_wysw_status (stat_fl)
    define stat_fl char(3), i smallint
 
@@ -539,6 +549,10 @@ function rcp_wysw_status (stat_fl)
             attribute(reverse)
 end function --rcp_wysw_status
 
+# --------------------------------------
+# wstawia do raportu rcp_imp_rap tekst dodajac 10 spacji z lewej strony
+# parametry: l_kom - tekst do wstawienia do raportu
+#---------------------------------------
 function rcp_zapisz_do_rap(l_kom) 
    define l_kom char(128)
 
@@ -546,6 +560,15 @@ function rcp_zapisz_do_rap(l_kom)
    output to report rcp_imp_rap (l_kom)
 end function --rcp_zapisz_do_rap() 
 
+# -------------------------------------------------------------------
+# pobiera z serwera RCP plik xml z absencjami i zapisami wejsc/wyjsc pojedymczego
+#  pracownika za wybrany miesiac
+# parametry do pobrania pliku funkcja bierze ze zmiennych statycznych:
+# 	m_naz_kat_dat 	- katalog, w ktorym ma byc zapisany plik
+#   m_naz_plik_imp	- nzwa pliku jaki zostanie utworzony (imienazwisko -bez rozeszerzenia)
+#	m_date_from		- pierwszy dzien miesiaca
+#	m_date_to		- ostatni dzien miesiaca	
+# -------------------------------------------------------------------
 function rcp_imp_xml() 
    define l_naz_plik_xml char(126),
           l_date_from, l_date_to char(10),
@@ -616,6 +639,16 @@ function rcp_imp_xml()
    return true
 end function --rcp_imp_xml() 
 
+
+# ----------------------------------------------------------------
+# Funkcja wywoluje program java, ktory na podstawie pobranego xml z abencjami i wejsciami/wyjsciami pracownika, 
+# tworzy dwa pliki tekstowe - jeden z lista absencji pracownika, drugi z lista wejsc/wyjsc
+# Parametry pobierane ze zmiennych statycznych:
+# 	m_naz_kat_app		- nazwa katalogu z programem java
+#	m_naz_plik_imp		- nazwa pobranego pliku xml
+#	m_naz_kat_dat		- nazwa katalogu gdze zapisywane sa pliki wyjscowe pliki tekstowe
+# Nazwa programu java jest na szywno wpisana w kod	
+# ----------------------------------------------------------------
 function rcp_kon_xml_txt ()
 
   
@@ -637,6 +670,12 @@ function rcp_kon_xml_txt ()
    return true
 end function --rcp_kon_xml_txt ()
 
+# --------------------------------------------------
+# pliki tekstowe z danymi o absencjach, wejsciach i wyjsciach laduje do tabek tymczasowych:
+#	tmp_rcp		- absencje
+#	tmp_rcp_pr	- wejscia/wyjscia
+# po zaladowaniu danych zmienia format daty na yyyy.mm.dd
+# ------------------------------------------------------
 function rcp_imp_to_tmp () 
    define i integer,
           l_rcp_dor_date char(10)
@@ -672,6 +711,7 @@ function rcp_imp_to_tmp ()
    
    return true
 end function --rcp_imp_to_tmp () 
+
 
 function rcp_imp_silp ()
    define p_rcp_abs_code, b_rcp_abs_code, l_rcp_dor_date char(10),
@@ -780,7 +820,11 @@ function rcp_imp_silp ()
    
 end function -- rcp_imp_silp ()
 
-
+#---------------------------------------------------------------
+# Kontrola poprawnosci danych:
+#  sprawdza czy dane o absencjach nie zosta³y ju¿ wczesniej wpisane
+#  sprawdza poprawnoœæ danych o absencji ( w tym zgodnosc z danymi pracownika (okres zatrudznienia)
+# --------------------------------------------------------------- 
 function rcp_imp_kontrola()
 define
    tmp_abs_num       integer,
@@ -918,6 +962,11 @@ define
 end function
 #rcp_imp_kontrola
 
+# ------------------------------------------------------------------------------
+# funkcja zapisuje dane o absencji absencje do tabeli pn_absence
+#  sprawdzany jest limit dni dla absencji i jesli zostal przekroczony to okres bsencji
+#  jest dzielony na dwie czesci i sa robione dwa wpisy do tabeli
+# ------------------------------------------------------------------------------- 
 function rcp_zapisz_abs()
     define l_txt char(128), l_date_from, l_date_to date,
            l_silp_abs_code_zus char(5),
@@ -927,6 +976,7 @@ function rcp_zapisz_abs()
 
 
     let l_prac_zus_fl = false
+    # ze slownika kodow wybiera kod silp, ktory powinien byc uzyty po przekroczeniu limitu - tmg 
     select silp_abs_code into l_silp_abs_code_zus
        from tmp_abs_dic
        where rcp_abs_code in (select rcp_abs_code from tmp_abs_dic 
@@ -934,6 +984,7 @@ function rcp_zapisz_abs()
          and fl = 2
         
     if status <> notfound then
+    	# z tablic pn_absli_* pbiera limit zus dla danego pracownika i kodu absencji SILP
        select (avail_limit-used_limit) into l_limit_dni
            from pn_absli_head, pn_absli_pos
            where pn_absli_head.limit_num = pn_absli_pos.limit_num
@@ -961,6 +1012,8 @@ function rcp_zapisz_abs()
        end if
     end if 
 
+	# jesli zostal przekroczony limit dni robione sa dwa wpisy do tabeli
+	# poczatek absenci - limit; limit - koniec absencji 
     while true
        let l_txt =  "        ", p_bsence.date_from, " - ",
                  p_bsence.date_to, "  ", p_bsence.abs_code
@@ -1013,7 +1066,11 @@ function rcp_zapisz_abs()
 end function
 #rcp_zapisz
 
-
+#------------------------------------------------------
+# Funkcja sprawdza czy w tabeli pn_absence s¹ zapisane absencje pracownika
+# i generuje raport (rcp_imp_rap) z list¹ absencji i kodow absencji rcp oraz 
+# odpowiadajacych im kodow absencji silp
+#------------------------------------------------------
 function rcp_kontrola_silp()
    define l_rcp_abs_code, l_silp_abs_code char(5),
           l_dor_date date,
@@ -1026,6 +1083,7 @@ function rcp_kontrola_silp()
       where day_type_ds = "R" 
          or (day_type_ds <> "R" and rcp_abs_code <> " ")
       order by dor_date
+      
    foreach k1_kont_silp into l_dor_date, l_rcp_abs_code
       let l_rcp_abs_code = upshift(l_rcp_abs_code)
 
@@ -1033,6 +1091,7 @@ function rcp_kontrola_silp()
          from pn_absence
          where addr_nr = p_bsence.addr_nr
            and l_dor_date between date_from and date_to
+           
       if status = notfound then 
          if l_rcp_abs_code = " " then --ok
             continue foreach
@@ -1044,10 +1103,11 @@ function rcp_kontrola_silp()
             from tmp_abs_dic
             where rcp_abs_code = l_rcp_abs_code
               and silp_abs_code = l_silp_abs_code
-        if i > 0 then
+          if i > 0 then
             continue foreach
-        end if
+          end if
       end if
+      
       let l_txt = p_bsence.addr_nr USING '-----#', "  ", 
                   p_bsence.name_1 clipped, " ",
                   p_bsence.name_2
@@ -1061,6 +1121,12 @@ end function --rcp_kontrola_silp()
 #------------------------------------------------------------------------
 #FUNKCJE z moduï¿½u custom.4gl
 
+#----------------------------------------------
+# funkcja sprawdza czy w tabeli pn_abs_type jest definicja kodu absencji (SILP)
+#  pobranego z roboczego slownika intrcp
+#  jesli w tej tabeli brak zapisu to zwraca false.
+#  funkcja sprawdza czy pole pn_abs_type.abs_period_dc jest ró¿ne od null - w jakim celu? co to pole oznacza?
+# --------------------------------------------------------------------
 ######################################################################
 function get_abs_type()
 ######################################################################
@@ -1068,7 +1134,7 @@ function get_abs_type()
 define
    stat   integer
 
-   if abs_type_prep is null
+   if abs_type_prep is nulldfloghdf;lghdgdsf
    then
       let abs_type_prep = "Y"
       let scratch = "select pn_abs_type.abs_period_dc,",
@@ -1083,6 +1149,7 @@ define
    end if
 
    # get absence definition
+	# zmiennna cur_abs_code nie jest nigdzie ustawiana ???!!!
    if cur_abs_code = p_bsence.abs_code
    then
       return true
@@ -1110,6 +1177,10 @@ end function
 # get_abs_type()
 
 
+#-------------------------------------------
+# Zwraza wartosc parametru absencji pobrana z tabeli pn_dict_pos 
+# jesli w tabeli nie znajdzie wpisu zwraca wartosc domyslna
+# --------------------------------------------------------------
 ######################################################################
 function get_abs_param(a_param_code)
 ######################################################################
@@ -1162,7 +1233,9 @@ define
 end function
 # get_abs_param()
 
-
+# -------------------------------------------------
+# sprawdza czy dla danej absencji jest pozycja planu 
+# --------------------------------------------------
 ######################################################################
 function chk_plan()
 ######################################################################
@@ -1233,8 +1306,8 @@ end function
 # chk_plan()
 
 #------------------------------------------------------------------------
-
-
+# raport z importu
+#------------------------------------------------------------------------
 report rcp_imp_rap (tekst)
     define tekst, l_txt CHAR(126), 
            licz_kol smallint,
