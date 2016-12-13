@@ -303,7 +303,7 @@ function rcp_imp_kont()
           inst_rm char(256)
           
 
-   if not rcp_okres()then
+   if not rcp_okres()thenms
       return
    end if
    if m_import_fl then
@@ -713,6 +713,11 @@ function rcp_imp_to_tmp ()
 end function --rcp_imp_to_tmp () 
 
 
+# --------------------------------------------------------------------------
+# z pobranych z systemu rcp listy absencji wylicza
+# pierwszy i ostatni dzieñ absencji i zapisuje
+# absencjê do tabeli SILP (dla flagi 1 ???)
+# ----------------------------------------------------------------------------
 function rcp_imp_silp ()
    define p_rcp_abs_code, b_rcp_abs_code, l_rcp_dor_date char(10),
           l_day_type_ds char(1),
