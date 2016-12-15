@@ -36,7 +36,9 @@ globals "rcp_glob.4gl"
             passwd     char(32)
           end record
    
-
+# ---------------------------------------------
+# start programu
+# ---------------------------------------------
 function main2 (param)
    define param smallint
 
@@ -70,6 +72,13 @@ function main2 (param)
     end menu
 end function
 
+# ------------------------------------
+# pobiera wartosci zmiennych srodowiskowych:
+#	DBSNAME
+#	INTRCPDIR
+#	nazwe katalogu aplikacji
+#	nazee karalogu danych
+# ------------------------------------------------
 function rcp_param()
    define l_naz_app char(32),
           l_naz_plik char(128)
@@ -104,6 +113,12 @@ function rcp_param()
    return true
 end function --rcp_param()
 
+
+# -----------------------------------------------
+# tworzzy struktury tabel tymczasowych do przechowywania danych o absencjach 
+# i wejsciach/wyjsciach oraz importuje z pliku dane slownikow z mapowaniem 
+# kodow absencji RCP na kody SILP
+# ---------------------------------------------------------------
 function rcp_tmp_table()
    define l_naz_plik char(128)
 
@@ -141,7 +156,10 @@ function rcp_tmp_table()
 end function --rcp_tmp_table()
 
 
-
+# ---------------
+# wyswietla menu do administratora 
+# i ew. wywoluje funkcje zmiany hasla
+# -------------------------------------
 function rcp_adm()
 
    open window w_rcp_adm at 1,1 with form "rcp_adm" 
@@ -163,6 +181,10 @@ function rcp_adm()
 
 end function --rcp_adm()
    
+   
+# ----------------------------------------------
+# Sprawdzenie hasla
+# ---------------------------------------------
 function rcp_adm_haslo () 
    define i,j,k smallint
    
@@ -198,6 +220,9 @@ function rcp_adm_haslo ()
    end if
 end function --rcp_adm_haslo () 
 
+#-------------------------------
+# wyswietla haslo w postaci gwiazdek
+# ----------------------------------
 function rcp_wys_passwd()
    define i,k  smallint, x_passwd char(16)
 
@@ -209,6 +234,9 @@ function rcp_wys_passwd()
    display x_passwd at 15, 14
 end function
 
+# -------------------------------
+# korekta hasla administratora
+# ----------------------------
 function rcp_adm_cor()
    define mh_rcp_adm record 
             server_rcp char(32),
@@ -282,6 +310,10 @@ function rcp_adm_cor()
    call rcp_wys_passwd()
 end function --rcp_adm_cor()
 
+# ------------------------------------------------------------
+# sprawdza czy istnieje plik o podanej nazwie
+# parametr: naz_plik - nazwa pliku
+# ------------------------------------------------------------- 
 function rcp_jest_plik(naz_plik)
 #sprawdzenie czy jest plik i jest niepusty
    define naz_plik CHAR(128), jest SMALLINT, inst CHAR(256)
@@ -296,6 +328,16 @@ function rcp_jest_plik(naz_plik)
 
 end function --rcp_jest_plik()
 
+
+# ---------------------------------------------------------------------
+# g³ówna funkcja sterujaca przebiegiem przetwarzania (???):
+# w zaleznosci od wyboru operatora wykonuje import danych z rcp lub kontrole danych
+# Po pobraniu od operatora okresu (miesiac), dla kolejnych pracownikow pobiera z systemu RCP:
+# 	- pobiera plik z absencjami za dany okres - f. rcp_imp_xml() 
+#	- konwertuje plik xml na plaski plik tekstowy - f. rcp_kon_xml_txt()
+#	- importuje dane do bazy silp - rcp_imp_silp()  lub
+#	- wywoluje procedure kontroli - rcp_kontrola_silp ()
+# ----------------------------------------------------------------------
 function rcp_imp_kont()
    define  
           l_txt, l_kom char(128),
@@ -303,7 +345,7 @@ function rcp_imp_kont()
           inst_rm char(256)
           
 
-   if not rcp_okres()thenms
+   if not rcp_okres() then
       return
    end if
    if m_import_fl then
@@ -1189,7 +1231,7 @@ end function
 ######################################################################
 function get_abs_param(a_param_code)
 ######################################################################
-#
+
 define
    a_param_code    smallint,
    tmp_feature     smallint,
