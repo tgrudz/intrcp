@@ -35,7 +35,7 @@ globals "rcp_glob.4gl"
             login      char(16),
             passwd     char(32)
           end record
-   
+   kjjkjj
 # ---------------------------------------------
 # start programu
 # ---------------------------------------------
@@ -331,7 +331,7 @@ end function --rcp_jest_plik()
 
 # ---------------------------------------------------------------------
 # g³ówna funkcja sterujaca przebiegiem przetwarzania (???):
-# w zaleznosci od wyboru operatora wykonuje import danych z rcp lub kontrole danych
+# w zaleznosci od ustawienia flagi m_import_fl wykonuje import danych z rcp lub kontrole danych
 # Po pobraniu od operatora okresu (miesiac), dla kolejnych pracownikow pobiera z systemu RCP:
 # 	- pobiera plik z absencjami za dany okres - f. rcp_imp_xml() 
 #	- konwertuje plik xml na plaski plik tekstowy - f. rcp_kon_xml_txt()
