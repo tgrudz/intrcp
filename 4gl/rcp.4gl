@@ -1,7 +1,7 @@
 #Interfejs RCP->SILP
 #-------------------------------------------------------------------------------
-#Autor: Katarzyna Osi�ska
-#       Zak�ad Informatyki LP
+#Autor: Katarzyna Osinska
+#       Zaklad Informatyki LP
 #Data:  2010.01.14
 #------------------------------------------------------------------------------
 # 1.02/2010.04.26 -zapisywanie danych do tabeli pn_absen_rates (okresy akcencji)
