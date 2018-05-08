@@ -35,7 +35,7 @@ globals "rcp_glob.4gl"
             login      char(16),
             passwd     char(32)
           end record
-   kjjkjj
+ 
 # ---------------------------------------------
 # start programu
 # ---------------------------------------------
@@ -77,7 +77,7 @@ end function
 #	DBSNAME
 #	INTRCPDIR
 #	nazwe katalogu aplikacji
-#	nazee karalogu danych
+#	nazwe karalogu danych
 # ------------------------------------------------
 function rcp_param()
    define l_naz_app char(32),
@@ -330,7 +330,7 @@ end function --rcp_jest_plik()
 
 
 # ---------------------------------------------------------------------
-# g³ówna funkcja sterujaca przebiegiem przetwarzania (???):
+# glowna funkcja sterujaca przebiegiem przetwarzania (???):
 # w zaleznosci od ustawienia flagi m_import_fl wykonuje import danych z rcp lub kontrole danych
 # Po pobraniu od operatora okresu (miesiac), dla kolejnych pracownikow pobiera z systemu RCP:
 # 	- pobiera plik z absencjami za dany okres - f. rcp_imp_xml() 
@@ -361,6 +361,7 @@ function rcp_imp_kont()
    if not get_yes_no (l_txt) then
       return
    end if
+   
    let l_kom = l_kom clipped, "  ZA  OKRES  " , m_date_from, " - ", m_date_to
    display l_kom at 1, 1 
    display "" at 2, 1
